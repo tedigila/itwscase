@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CAMPUS PEDICAB - NEUST Sumacab University Transit</title>
+  <style>
+    /* CSS VARIABLES & RESET */
+    :root {
+      --primary: #023e8a;
+      --primary-hover: #0077b6;
+      --accent: #caf0f8;
+      --bg-light: #f4f8fc;
+      --card-bg: #ffffff;
+      --text-main: #1d2d44;
+      --text-muted: #576574;
+      --border: #d0e1f9;
+      --success: #2b9348;
+      --danger: #d90429;
+      --warning: #f59e0b;
+      --info: #0077b6;
+      --map-blue: #0b1c5c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 40px;
+    }
+
+    /* TOP COVER PICTURE BANNER */
+    .top-cover-container {
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      background-color: var(--primary);
+    }
+
+    .top-cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+    }
+
+    /* HEADER & BRANDING */
+    header {
+      background-color: var(--card-bg);
+      border-bottom: 2px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-img {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .brand-text h1 {
+      font-size: 1.2rem;
+      color: var(--primary);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-text span {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* THREE-LINE MENU TOGGLE BUTTON (HAMBURGER ICON) */
+    .menu-toggle {
+      background: none;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      font-size: 1.4rem;
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .menu-toggle:hover {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    /* NAVIGATION DRAWER / DROPDOWN MENU */
+    nav {
+      background-color: var(--card-bg);
+      border-bottom: 2px solid var(--border);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    nav.show {
+      max-height: 300px;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 14px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: background-color 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-btn:last-child {
+      border-bottom: none;
+    }
+
+    .nav-btn:hover {
+      background-color: var(--accent);
+      color: var(--primary);
+    }
+
+    .nav-btn.active {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    /* CONTAINER & PAGE SECTIONS */
+    .container {
+      max-width: 900px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    .section-page {
+      display: none;
+    }
+
+    .section-page.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      color: var(--primary);
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 8px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .info-box {
+      background-color: #f8fbfe;
+      border-left: 4px solid var(--primary);
+      padding: 16px;
+      border-radius: 6px;
+    }
+
+    .info-box h3 {
+      font-size: 1.05rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .fare-price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 8px 0;
+    }
+
+    /* ADVANTAGE LIST */
+    .advantage-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .advantage-item {
+      background-color: #f8fbfe;
+      border-left: 4px solid var(--primary);
+      padding: 14px 16px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+
+    .advantage-item strong {
+      color: var(--primary);
+    }
+
+    /* MAP CARD CONTAINER */
+    .map-card-wrapper {
+      background-color: var(--map-blue);
+      border-radius: 12px;
+      padding: 20px;
+      color: white;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .map-header-bar {
+      margin-bottom: 14px;
+    }
+
+    .map-header-bar h3 {
+      font-size: 1.15rem;
+      color: #ffffff;
+    }
+
+    .map-display-box {
+      background-color: var(--map-blue);
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: center;
+      padding: 4px;
+    }
+
+    .map-img {
+      width: 100%;
+      height: auto;
+      max-height: 650px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      border-radius: 4px;
+      background-color: var(--map-blue);
+    }
+
+    /* DIRECTORY TABLE STYLES */
+    .directory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .directory-category {
+      background-color: #f8fbfe;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .directory-category h4 {
+      color: var(--primary);
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 4px;
+    }
+
+    .directory-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .directory-table th, 
+    .directory-table td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .directory-table th {
+      background-color: var(--accent);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .directory-table tbody tr {
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .directory-table tbody tr:hover {
+      background-color: #dbeafe;
+    }
+
+    .num-badge {
+      display: inline-block;
+      background-color: #f59e0b;
+      color: #000;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      text-align: center;
+      min-width: 24px;
+    }
+
+    /* FORMS */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-control:focus, .form-control.highlighted {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(2, 62, 138, 0.2);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .toggle-pw-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-submit {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: #e2e8f0;
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* STUDENT LIVE REQUEST TRACKING BOX */
+    .tracking-box {
+      background-color: #f0fdf4;
+      border: 2px solid #bbf7d0;
+      padding: 18px;
+      border-radius: 10px;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .tracking-box h3 {
+      color: #166534;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+
+    /* DRIVER REQUEST QUEUE STYLES */
+    .dashboard-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .request-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .request-item {
+      background: #ffffff;
+      border: 2px solid var(--border);
+      padding: 18px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .request-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .request-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .time-stamp {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .request-body {
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    /* STATUS BADGES */
+    .status-badge {
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .status-pending {
+      background-color: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+    }
+
+    .status-accepted {
+      background-color: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    .status-picked-up {
+      background-color: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+
+    .status-completed {
+      background-color: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .driver-assigned-tag {
+      display: inline-block;
+      background-color: var(--primary);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-top: 6px;
+    }
+
+    .status-update-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .status-select {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      font-weight: 600;
+      background-color: #f8fbfe;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    .empty-queue {
+      text-align: center;
+      padding: 30px 20px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      background-color: #f8fbfe;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+    }
+
+    /* STAR RATING */
+    .star-rating {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+
+    .star-rating input {
+      display: none;
+    }
+
+    .star-rating label {
+      font-size: 1.8rem;
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .star-rating input:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+      color: #f59e0b;
+    }
+
+    /* ALERTS */
+    .alert-success {
+      background-color: #e6f4ea;
+      color: var(--success);
+      border: 1px solid #b7e4c7;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-top: 14px;
+      display: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .alert-error {
+      background-color: #fde8e8;
+      color: var(--danger);
+      border: 1px solid #f8b4b4;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-top: 14px;
+      display: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* COMMUNITY EXPERIENCES FEED */
+    .experience-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .experience-item {
+      background: #f8fbfe;
+      border: 1px solid var(--border);
+      padding: 14px;
+      border-radius: 8px;
+    }
+
+    .experience-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .experience-user {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.95rem;
+    }
+
+    .experience-stars {
+      color: #f59e0b;
+      font-size: 1rem;
+      letter-spacing: 2px;
+    }
+
+    .experience-text {
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .experience-date {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body onload="initApp()">
+
+  <!-- COVER PICTURE BANNER -->
+  <div class="top-cover-container">
+    <img 
+      class="top-cover-img" 
+      src="af123bdf-e3b8-4a31-9b4d-8665803bd026_2.jpg" 
+      alt="Campus Pedicab Cover"
+    />
+  </div>
+
+  <!-- HEADER BRANDING & THREE-LINE HAMBURGER MENU TOGGLE -->
+  <header>
+    <div class="brand">
+      <img 
+        class="brand-logo-img" 
+        src="294907598_424215026394117_510540427096584683_n.png" 
+        alt="NEUST Official Seal"
+      />
+      <div class="brand-text">
+        <h1>CAMPUS PEDICAB</h1>
+        <span>Neust's Pedicab</span>
+      </div>
+    </div>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle Navigation Menu">
+      &#9776;
+    </button>
+  </header>
+
+  <!-- THREE-LINE COLLAPSIBLE NAVIGATION DRAWER -->
+  <nav id="main-nav">
+    <button class="nav-btn active" onclick="switchTab('home')">Home & Info</button>
+    <button class="nav-btn" onclick="switchTab('map-pickup')">Campus Map & Pick-up Request</button>
+    <button class="nav-btn" onclick="switchTab('experiences')">Student Experiences</button>
+    <button class="nav-btn" onclick="switchTab('drivers-section')">Drivers Portal</button>
+  </nav>
+
+  <div class="container">
+
+    <!-- PAGE 1: HOME & INFO -->
+    <section id="home" class="section-page active">
+
+      <div class="card">
+        <h2 class="card-title">
+          <span>Essential Passenger Information</span>
+        </h2>
+        
+        <div class="info-grid">
+          <!-- PEDICAB FARE -->
+          <div class="info-box">
+            <h3>Pedicab Fare</h3>
+            <div class="fare-price">P10</div>
+            <p>Flat rate per ride to any campus building or facility.</p>
+          </div>
+
+          <!-- OPERATING HOURS -->
+          <div class="info-box">
+            <h3>Operating Hours</h3>
+            <p><strong>Regular Schedule:</strong><br>7:00 AM – 4:30 PM</p>
+            <p style="margin-top: 8px; font-size: 0.85rem; color: var(--text-muted);">
+              *Some drivers may accept passengers until 5:00 PM depending on availability.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Where to Find Pedicabs</h2>
+        <div class="info-box" style="margin-bottom: 12px;">
+          <p><strong>7:00 AM – 9:00 AM:</strong></p>
+          <p>Pedicabs are lined up near the <strong>Campus Guardhouse (Gate #58)</strong> inside the university entrance.</p>
+        </div>
+        <div class="info-box">
+          <p><strong>After 9:00 AM:</strong></p>
+          <p>Pedicabs usually wait <strong>in front of the campus</strong> outside the main university entrance.</p>
+        </div>
+      </div>
+
+      <!-- CAMPUS INFRASTRUCTURE & TRANSIT DETAILS -->
+      <div class="card">
+        <h2 class="card-title">Why It Is Convenient to Use Pedicabs Inside the Campus</h2>
+        <div class="advantage-list">
+          <div class="advantage-item">
+            <strong>Wide Campus Area:</strong> The Sumacab Campus is large and spread out. Pedicabs make it easier and faster for students and staff to travel between buildings, laboratories, sports facilities, and other areas of the campus.
+          </div>
+          <div class="advantage-item">
+            <strong>Safe and Eco-Friendly:</strong> Pedicabs are powered by people and do not produce harmful emissions. They also help reduce the use of fast-moving vehicles inside the campus, making the area safer for students and staff.
+          </div>
+          <div class="advantage-item">
+            <strong>Convenient During Hot or Rainy Weather:</strong> Pedicabs provide protection from the heat and rain. They are also useful for students and staff carrying heavy bags, school projects, or other materials.
+          </div>
+          <div class="advantage-item">
+            <strong>Affordable Transportation:</strong> Pedicab fares are kept affordable, making them a practical and budget-friendly way to travel short distances within the campus.
+          </div>
+          <div class="advantage-item">
+            <strong>Support for Local Drivers:</strong> Allowing pedicabs inside the campus provides local drivers with a source of income while giving students and staff a convenient transportation option.
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- PAGE 2: CAMPUS MAP & PICK-UP REQUEST (COMBINED) -->
+    <section id="map-pickup" class="section-page">
+      
+      <!-- SCHEMATIC MAP CARD -->
+      <div class="map-card-wrapper">
+        <div class="map-header-bar">
+          <h3>NEUST Sumacab Campus Map</h3>
+        </div>
+        
+        <div class="map-display-box">
+          <img 
+            id="campus-map" 
+            class="map-img" 
+            src="Numbered Campus Map Schematic.png" 
+            alt="NEUST Sumacab Campus Map Schematic"
+          >
+        </div>
+      </div>
+
+      <!-- DIRECTORY LIST OF MAP NUMBERS & BUILDINGS (CLICK TO SELECT) -->
+      <div class="card">
+        <h2 class="card-title">Campus Building & Facility Directory</h2>
+        <p style="margin-bottom: 12px; font-size: 0.9rem; color: var(--text-muted);">
+          <strong>Tip:</strong> Click on any building number or name below to automatically select it as your pick-up location!
+        </p>
+
+        <div class="directory-grid">
+          
+          <!-- ADMINISTRATION BUILDING -->
+          <div class="directory-category">
+            <h4>Administration Building</h4>
+            <table class="directory-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">No.</th>
+                  <th>Facility / Office</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="selectBuilding('Office of Admissions and Registration (#3)')"><td><span class="num-badge">3</span></td><td>Office of Admissions and Registration</td></tr>
+                <tr onclick="selectBuilding('Supply and Property Management (#8)')"><td><span class="num-badge">8</span></td><td>Supply and Property Management</td></tr>
+                <tr onclick="selectBuilding('Business Center / Marketing (#17)')"><td><span class="num-badge">17</span></td><td>Business Center / Marketing</td></tr>
+                <tr onclick="selectBuilding('Materials Recovery Facilities (#29)')"><td><span class="num-badge">29</span></td><td>Materials Recovery Facilities</td></tr>
+                <tr onclick="selectBuilding('University Cyber Center (#36)')"><td><span class="num-badge">36</span></td><td>University Cyber Center</td></tr>
+                <tr onclick="selectBuilding('Administration Bldg. / Cashier (#42)')"><td><span class="num-badge">42</span></td><td>Administration Bldg. / Cashier</td></tr>
+                <tr onclick="selectBuilding('Quality Assurance Bldg. (#45)')"><td><span class="num-badge">45</span></td><td>Quality Assurance Bldg.</td></tr>
+                <tr onclick="selectBuilding('General Services Bldg. (#53)')"><td><span class="num-badge">53</span></td><td>General Services Bldg.</td></tr>
+                <tr onclick="selectBuilding('Gate / Guard House (#58)')"><td><span class="num-badge">58</span></td><td>Gate / Guard House</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- SPORTS & CULTURAL -->
+          <div class="directory-category">
+            <h4>Sports, Fitness & Cultural</h4>
+            <table class="directory-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">No.</th>
+                  <th>Facility</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="selectBuilding('University Swimming Pool (#12)')"><td><span class="num-badge">12</span></td><td>University Swimming Pool</td></tr>
+                <tr onclick="selectBuilding('Oval Track (#18)')"><td><span class="num-badge">18</span></td><td>Oval Track</td></tr>
+                <tr onclick="selectBuilding('Physical Fitness Center (#19)')"><td><span class="num-badge">19</span></td><td>Physical Fitness Center</td></tr>
+                <tr onclick="selectBuilding('University Grandstand (#20)')"><td><span class="num-badge">20</span></td><td>University Grandstand</td></tr>
+                <tr onclick="selectBuilding('Cultural Center (#23)')"><td><span class="num-badge">23</span></td><td>Cultural Center</td></tr>
+                <tr onclick="selectBuilding('Athletics Center (#24)')"><td><span class="num-badge">24</span></td><td>Athletics Center</td></tr>
+                <tr onclick="selectBuilding('University Quadrangle (#35)')"><td><span class="num-badge">35</span></td><td>University Quadrangle</td></tr>
+                <tr onclick="selectBuilding('University Museum (#46)')"><td><span class="num-badge">46</span></td><td>University Museum</td></tr>
+                <tr onclick="selectBuilding('Heroes Park (#55)')"><td><span class="num-badge">55</span></td><td>Heroes Park</td></tr>
+                <tr onclick="selectBuilding('Beach Volleyball Court (#57)')"><td><span class="num-badge">57</span></td><td>Beach Volleyball Court</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- CANTEENS & HALLS -->
+          <div class="directory-category">
+            <h4>Canteens, Gyms & Halls</h4>
+            <table class="directory-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">No.</th>
+                  <th>Facility</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="selectBuilding('Mini Convention Center (#2)')"><td><span class="num-badge">2</span></td><td>Mini Convention Center</td></tr>
+                <tr onclick="selectBuilding('University Cafeteria (#7)')"><td><span class="num-badge">7</span></td><td>University Cafeteria</td></tr>
+                <tr onclick="selectBuilding('Open Gym (#9)')"><td><span class="num-badge">9</span></td><td>Open Gym</td></tr>
+                <tr onclick="selectBuilding('Closed Gym (#13)')"><td><span class="num-badge">13</span></td><td>Closed Gym</td></tr>
+                <tr onclick="selectBuilding('University Food Court B (#14)')"><td><span class="num-badge">14</span></td><td>University Food Court B</td></tr>
+                <tr onclick="selectBuilding('Ortiz Hall (#21)')"><td><span class="num-badge">21</span></td><td>Ortiz Hall</td></tr>
+                <tr onclick="selectBuilding('University Amphitheater (#22)')"><td><span class="num-badge">22</span></td><td>University Amphitheater</td></tr>
+                <tr onclick="selectBuilding('Nieto Hall / Farmers Training Center (#33)')"><td><span class="num-badge">33</span></td><td>Nieto Hall / Farmer's Training Center</td></tr>
+                <tr onclick="selectBuilding('University Food Court A (#41)')"><td><span class="num-badge">41</span></td><td>University Food Court A</td></tr>
+                <tr onclick="selectBuilding('CMBT Gym (#48)')"><td><span class="num-badge">48</span></td><td>CMBT Gym</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- CHAPEL & STUDENT DEV -->
+          <div class="directory-category">
+            <h4>Chapel, Infirmary & Student Dev</h4>
+            <table class="directory-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">No.</th>
+                  <th>Facility / Office</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="selectBuilding('University Chapel (#1)')"><td><span class="num-badge">1</span></td><td>University Chapel</td></tr>
+                <tr onclick="selectBuilding('COE Student Center (#11)')"><td><span class="num-badge">11</span></td><td>COE Student Center</td></tr>
+                <tr onclick="selectBuilding('Univ. Student Gov. Old Office (#15)')"><td><span class="num-badge">15</span></td><td>Univ. Student Gov. Old Office</td></tr>
+                <tr onclick="selectBuilding('OJT & Student Publication Bldg. (#16)')"><td><span class="num-badge">16</span></td><td>OJT & Student Publication Bldg.</td></tr>
+                <tr onclick="selectBuilding('Gender & Development Center (#31)')"><td><span class="num-badge">31</span></td><td>Gender & Development Center</td></tr>
+                <tr onclick="selectBuilding('University Infirmary (#38)')"><td><span class="num-badge">38</span></td><td>University Infirmary</td></tr>
+                <tr onclick="selectBuilding('University Library (#39)')"><td><span class="num-badge">39</span></td><td>University Library</td></tr>
+                <tr onclick="selectBuilding('TLE Bldg. (#40)')"><td><span class="num-badge">40</span></td><td>TLE Bldg.</td></tr>
+                <tr onclick="selectBuilding('Rico Fajardo Hall Hostel (#51)')"><td><span class="num-badge">51</span></td><td>Rico Fajardo Hall Hostel</td></tr>
+                <tr onclick="selectBuilding('NSTP Bldg. (#52)')"><td><span class="num-badge">52</span></td><td>NSTP Bldg.</td></tr>
+                <tr onclick="selectBuilding('University Hostel 2 (#54)')"><td><span class="num-badge">54</span></td><td>University Hostel 2</td></tr>
+                <tr onclick="selectBuilding('Alumni Bldg. (#56)')"><td><span class="num-badge">56</span></td><td>Alumni Bldg.</td></tr>
+                <tr onclick="selectBuilding('Univ. Student Gov. New Office (#59)')"><td><span class="num-badge">59</span></td><td>Univ. Student Gov. New Office</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- SCIENCE & TECHNOLOGY -->
+          <div class="directory-category">
+            <h4>Science & Technology</h4>
+            <table class="directory-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">No.</th>
+                  <th>Facility / Lab</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="selectBuilding('Metal Innovations Center (#5)')"><td><span class="num-badge">5</span></td><td>Metal Innovations Center</td></tr>
+                <tr onclick="selectBuilding('Metals & Engineering Invocation Center (#6)')"><td><span class="num-badge">6</span></td><td>Metals & Engineering Invocation Center</td></tr>
+                <tr onclick="selectBuilding('COE Laboratory (#8)')"><td><span class="num-badge">8</span></td><td>COE Laboratory</td></tr>
+                <tr onclick="selectBuilding('Criminology Laboratory (#28)')"><td><span class="num-badge">28</span></td><td>Criminology Laboratory</td></tr>
+                <tr onclick="selectBuilding('Science & Technology Bldg. (#29)')"><td><span class="num-badge">29</span></td><td>Science & Technology Bldg.</td></tr>
+                <tr onclick="selectBuilding('Techno Hub (#44)')"><td><span class="num-badge">44</span></td><td>Techno Hub</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- COLLEGE BUILDINGS -->
+          <div class="directory-category">
+            <h4>College Buildings</h4>
+            <table class="directory-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">No.</th>
+                  <th>College / Department</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="selectBuilding('College of Engineering Old Bldg. (#4)')"><td><span class="num-badge">4</span></td><td>College of Engineering Old Bldg.</td></tr>
+                <tr onclick="selectBuilding('COE Seminar Hall (#10)')"><td><span class="num-badge">10</span></td><td>COE Seminar Hall</td></tr>
+                <tr onclick="selectBuilding('College of Information & Comm. Tech (#25)')"><td><span class="num-badge">25</span></td><td>College of Information & Comm. Tech</td></tr>
+                <tr onclick="selectBuilding('College of Criminology Bldg. B (#26)')"><td><span class="num-badge">26</span></td><td>College of Criminology Bldg. B</td></tr>
+                <tr onclick="selectBuilding('College of Criminology Bldg. A (#27)')"><td><span class="num-badge">27</span></td><td>College of Criminology Bldg. A</td></tr>
+                <tr onclick="selectBuilding('Hospitality & Tourism Management (#32)')"><td><span class="num-badge">32</span></td><td>Hospitality & Tourism Management</td></tr>
+                <tr onclick="selectBuilding('Graduate School Bldg. (#34)')"><td><span class="num-badge">34</span></td><td>Graduate School Bldg.</td></tr>
+                <tr onclick="selectBuilding('College of Education Bldg. (#36)')"><td><span class="num-badge">36</span></td><td>College of Education Bldg.</td></tr>
+                <tr onclick="selectBuilding('College of Architecture (#43)')"><td><span class="num-badge">43</span></td><td>College of Architecture</td></tr>
+                <tr onclick="selectBuilding('Management & Business Technology (#47)')"><td><span class="num-badge">47</span></td><td>Management & Business Technology</td></tr>
+                <tr onclick="selectBuilding('Public Admin & Disaster Management (#49)')"><td><span class="num-badge">49</span></td><td>Public Admin & Disaster Management</td></tr>
+                <tr onclick="selectBuilding('Entrepreneurship Bldg. (#60)')"><td><span class="num-badge">60</span></td><td>Entrepreneurship Bldg.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PICK-UP REQUEST FORM DIRECTLY BELOW MAP & DIRECTORY -->
+      <div class="card" id="pickup-card">
+        <h2 class="card-title">Request a Pedicab Pick-up</h2>
+        <form id="pickup-form" onsubmit="handlePickupSubmit(event)">
+          
+          <div class="form-group">
+            <label for="pickup-student-name">Student Name *</label>
+            <input 
+              type="text" 
+              id="pickup-student-name" 
+              class="form-control" 
+              placeholder="e.g., Angela Carrillo" 
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="pickup-location">Pick-up Location *</label>
+            <input 
+              type="text" 
+              id="pickup-location" 
+              class="form-control" 
+              placeholder="Select a building above or type here..." 
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="pickup-comments">Additional Comments / Instructions for Driver (Optional)</label>
+            <textarea 
+              id="pickup-comments" 
+              class="form-control" 
+              placeholder="e.g., Waiting near the entrance porch."
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">Submit Request</button>
+        </form>
+
+        <div id="pickup-alert" class="alert-success">
+          Pick-up request sent successfully! Authorized drivers can now view your request on the dashboard.
+        </div>
+
+        <!-- LIVE STUDENT TRACKING BOX -->
+        <div id="student-tracking-box" class="tracking-box">
+          <h3>Your Request Status</h3>
+          <p id="tracking-status-text" style="margin-bottom: 10px; font-weight: 600; font-size: 0.95rem;"></p>
+          <button type="button" class="btn-danger" style="padding: 6px 14px; font-size: 0.85rem;" onclick="cancelMyRequest()">Cancel Request</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 3: STUDENT EXPERIENCES -->
+    <section id="experiences" class="section-page">
+      <div class="card">
+        <h2 class="card-title">Share Your Experience</h2>
+        <p style="margin-bottom: 16px; color: var(--text-muted); font-size: 0.9rem;">
+          Send your feedback, suggestions, or report your daily transit experience with our drivers.
+        </p>
+
+        <form id="experience-form" onsubmit="handleExperienceSubmit(event)">
+          <div class="form-group">
+            <label>Rating</label>
+            <div class="star-rating">
+              <input type="radio" id="star5" name="rating" value="5" required/><label for="star5">★</label>
+              <input type="radio" id="star4" name="rating" value="4"/><label for="star4">★</label>
+              <input type="radio" id="star3" name="rating" value="3"/><label for="star3">★</label>
+              <input type="radio" id="star2" name="rating" value="2"/><label for="star2">★</label>
+              <input type="radio" id="star1" name="rating" value="1"/><label for="star1">★</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="exp-name">Your Name</label>
+            <input type="text" id="exp-name" class="form-control" placeholder="e.g., Maria Santos" required>
+          </div>
+
+          <div class="form-group">
+            <label for="exp-comments">Comments / Suggestions / Complaints</label>
+            <textarea 
+              id="exp-comments" 
+              class="form-control" 
+              placeholder="Share how your ride went today..."
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">Submit Feedback</button>
+        </form>
+
+        <div id="experience-alert" class="alert-success">
+          Thank you! Your feedback has been shared with the community.
+        </div>
+      </div>
+
+      <!-- OTHERS FEEDBACK / EXPERIENCES FEED -->
+      <div class="card">
+        <h2 class="card-title">Recent Student Experiences</h2>
+        <div class="experience-list" id="experience-feed">
+          <div class="experience-item">
+            <div class="experience-header">
+              <span class="experience-user">Maria S. (BSIT)</span>
+              <span class="experience-stars">★★★★★</span>
+            </div>
+            <div class="experience-text">Very convenient and fast ride from Gate 1 to the IT Building during morning rush hour! Driver was very polite.</div>
+            <div class="experience-date">Today, 8:15 AM</div>
+          </div>
+
+          <div class="experience-item">
+            <div class="experience-header">
+              <span class="experience-user">Juan D.</span>
+              <span class="experience-stars">★★★★☆</span>
+            </div>
+            <div class="experience-text">Quick pickup near the main entrance. Smooth and safe ride all the way to our building.</div>
+            <div class="experience-date">Yesterday, 3:40 PM</div>
+          </div>
+
+          <div class="experience-item">
+            <div class="experience-header">
+              <span class="experience-user">Ana M.</span>
+              <span class="experience-stars">★★★★★</span>
+            </div>
+            <div class="experience-text">Saves a lot of walking time between my morning classes! Affordable and super helpful service.</div>
+            <div class="experience-date">2 days ago</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 4: DRIVERS SECTION (LOGIN & SECURE DASHBOARD) -->
+    <section id="drivers-section" class="section-page">
+      
+      <!-- A. DRIVER LOGIN -->
+      <div class="card" id="driver-login-card">
+        <h2 class="card-title">Authorized Driver Login</h2>
+        <p style="margin-bottom: 16px; color: var(--text-muted); font-size: 0.9rem;">
+          Enter your assigned driver number followed by "pedi" (username) and your two-digit number (password).
+        </p>
+
+        <form id="driver-login-form" onsubmit="handleDriverLogin(event)">
+          <div class="form-group">
+            <label for="driver-username">Username</label>
+            <input 
+              type="text" 
+              id="driver-username" 
+              class="form-control" 
+              placeholder="e.g., 01pedi, 58pedi" 
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="driver-password">Password</label>
+            <div class="password-wrapper">
+              <input 
+                type="password" 
+                id="driver-password" 
+                class="form-control" 
+                placeholder="Assigned number (e.g., 01)" 
+                required
+              >
+              <button type="button" class="toggle-pw-btn" onclick="togglePasswordVisibility()">Show</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit">Login</button>
+        </form>
+
+        <div id="driver-login-error" class="alert-error">
+          Incorrect username or password. Please check your credentials and try again.
+        </div>
+      </div>
+
+      <!-- B & C. DRIVER DASHBOARD (STUDENT PICK-UP REQUESTS) -->
+      <div class="card" id="driver-dashboard-card" style="display: none;">
+        <div class="dashboard-toolbar">
+          <div>
+            <h2 class="card-title" style="margin-bottom: 4px; border-bottom: none; padding-bottom: 0;">STUDENT PICK-UP REQUESTS</h2>
+            <span style="font-size: 0.85rem; color: var(--text-muted);" id="logged-driver-label">Driver Portal Active</span>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-secondary" onclick="renderDriverDashboard()">Refresh List</button>
+            <button class="btn-danger" onclick="handleDriverLogout()">Logout</button>
+          </div>
+        </div>
+
+        <p style="margin-bottom: 16px; color: var(--text-muted); font-size: 0.9rem;">
+          Showing all pick-up requests submitted by students (newest first). Update request status as you coordinate rides.
+        </p>
+
+        <div id="driver-request-queue" class="request-list">
+          <!-- DYNAMIC REQUEST QUEUE -->
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <script>
+    // INITIALIZE APPLICATION & LIVE INTERVALS
+    function initApp() {
+      initDriverAuth();
+      checkOperationalStatus();
+      setInterval(checkOperationalStatus, 30000); // Check status every 30 seconds
+      checkStudentTrackingState();
+      setInterval(syncStudentTrackingState, 2000); // Poll tracking state for live updates
+    }
+
+    // CHECK OPERATIONAL STATUS (7:00 AM - 4:30 PM)
+    function checkOperationalStatus() {
+      const badge = document.getElementById('operational-status-badge');
+      if (!badge) return;
+
+      const now = new Date();
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      const openMinutes = 7 * 60;       // 7:00 AM
+      const closeMinutes = 16 * 60 + 30; // 4:30 PM
+
+      if (currentMinutes >= openMinutes && currentMinutes <= closeMinutes) {
+        badge.innerText = 'Open Now';
+        badge.className = 'operational-badge badge-open';
+      } else {
+        badge.innerText = 'Closed';
+        badge.className = 'operational-badge badge-closed';
+      }
+    }
+
+    // SECURE SHA-256 HASH UTILITY FOR AUTHENTICATION
+    async function hashString(str) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // GENERATE ALL 58 DRIVER CREDENTIAL HASHES AUTOMATICALLY
+    const validDriverHashes = {};
+    async function initDriverAuth() {
+      for (let i = 1; i <= 58; i++) {
+        const numStr = i < 10 ? '0' + i : '' + i;
+        const username = numStr + 'pedi';
+        const password = numStr;
+        validDriverHashes[username] = await hashString(username + ':' + password);
+      }
+    }
+
+    // SHARED DATABASE (LOCALSTORAGE) FOR STUDENT PICK-UP REQUESTS
+    function getStoredRequests() {
+      const data = localStorage.getItem('pedicab_requests');
+      if (!data) {
+        const initial = [
+          {
+            id: 'req-sample-1',
+            studentName: 'Angela Carrillo',
+            contact: '09123456789',
+            location: 'Quality Assurance Bldg. (#45)',
+            comments: 'Waiting near the main porch.',
+            timestamp: new Date().toLocaleString(),
+            status: 'Pending',
+            assignedDriver: ''
+          }
+        ];
+        localStorage.setItem('pedicab_requests', JSON.stringify(initial));
+        return initial;
+      }
+      return JSON.parse(data);
+    }
+
+    function saveStoredRequests(requests) {
+      localStorage.setItem('pedicab_requests', JSON.stringify(requests));
+    }
+
+    // TOGGLE THREE-LINE HAMBURGER MENU DRAWER
+    function toggleMenu() {
+      const nav = document.getElementById('main-nav');
+      nav.classList.toggle('show');
+    }
+
+    // NAVIGATION TAB SWITCHER
+    function switchTab(tabId) {
+      document.querySelectorAll('.section-page').forEach(page => {
+        page.classList.remove('active');
+      });
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      document.getElementById(tabId).classList.add('active');
+      
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      }
+
+      document.getElementById('main-nav').classList.remove('show');
+
+      if (tabId === 'drivers-section') {
+        checkDriverAuthSession();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // TOGGLE PASSWORD VISIBILITY
+    function togglePasswordVisibility() {
+      const pwInput = document.getElementById('driver-password');
+      const toggleBtn = document.querySelector('.toggle-pw-btn');
+      if (pwInput.type === 'password') {
+        pwInput.type = 'text';
+        toggleBtn.innerText = 'Hide';
+      } else {
+        pwInput.type = 'password';
+        toggleBtn.innerText = 'Show';
+      }
+    }
+
+    // DRIVER LOGIN HANDLER
+    async function handleDriverLogin(e) {
+      e.preventDefault();
+      const usernameInput = document.getElementById('driver-username').value.trim().toLowerCase();
+      const passwordInput = document.getElementById('driver-password').value.trim();
+      const errorBox = document.getElementById('driver-login-error');
+
+      const inputHash = await hashString(usernameInput + ':' + passwordInput);
+
+      if (validDriverHashes[usernameInput] && validDriverHashes[usernameInput] === inputHash) {
+        errorBox.style.display = 'none';
+        sessionStorage.setItem('authenticated_driver', usernameInput);
+        document.getElementById('driver-login-form').reset();
+        checkDriverAuthSession();
+      } else {
+        errorBox.style.display = 'block';
+      }
+    }
+
+    // CHECK AUTH SESSION
+    function checkDriverAuthSession() {
+      const loggedDriver = sessionStorage.getItem('authenticated_driver');
+      const loginCard = document.getElementById('driver-login-card');
+      const dashboardCard = document.getElementById('driver-dashboard-card');
+
+      if (loggedDriver) {
+        loginCard.style.display = 'none';
+        dashboardCard.style.display = 'block';
+        document.getElementById('logged-driver-label').innerText = 'Logged in as Driver: ' + loggedDriver.toUpperCase();
+        renderDriverDashboard();
+      } else {
+        loginCard.style.display = 'block';
+        dashboardCard.style.display = 'none';
+      }
+    }
+
+    // DRIVER LOGOUT
+    function handleDriverLogout() {
+      sessionStorage.removeItem('authenticated_driver');
+      checkDriverAuthSession();
+    }
+
+    // RENDER DRIVER DASHBOARD WITH ASSIGNED DRIVER NUMBER
+    function renderDriverDashboard() {
+      const requests = getStoredRequests();
+      const queueContainer = document.getElementById('driver-request-queue');
+      const loggedDriver = sessionStorage.getItem('authenticated_driver') || '';
+      const driverNumber = loggedDriver.replace('pedi', '').toUpperCase();
+
+      if (!requests || requests.length === 0) {
+        queueContainer.innerHTML = `<div class="empty-queue">No active student pick-up requests at the moment.</div>`;
+        return;
+      }
+
+      let html = '';
+      requests.forEach(req => {
+        let statusBadgeClass = 'status-pending';
+        if (req.status === 'Accepted') statusBadgeClass = 'status-accepted';
+        else if (req.status === 'Picked Up') statusBadgeClass = 'status-picked-up';
+        else if (req.status === 'Completed') statusBadgeClass = 'status-completed';
+
+        let driverTagHtml = '';
+        if (req.assignedDriver) {
+          driverTagHtml = `<div class="driver-assigned-tag">Assigned Driver: Driver #${req.assignedDriver}</div>`;
+        }
+
+        html += `
+          <div class="request-item">
+            <div class="request-header">
+              <div class="request-title">${escapeHtml(req.studentName)}</div>
+              <span class="time-stamp">${escapeHtml(req.timestamp)}</span>
+            </div>
+            <div class="request-body">
+              <p><strong>Selected Pick-up Location:</strong> ${escapeHtml(req.location)}</p>
+              <p><strong>Additional Comments / Instructions:</strong> ${req.comments ? escapeHtml(req.comments) : 'None'}</p>
+              ${driverTagHtml}
+            </div>
+            <div class="status-update-bar">
+              <span style="font-weight: 600; font-size: 0.9rem;">Status:</span>
+              <span class="status-badge ${statusBadgeClass}" id="badge-${req.id}">${req.status}</span>
+              <select class="status-select" onchange="updateRequestStatus('${req.id}', this.value, '${driverNumber}')">
+                <option value="Pending" ${req.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                <option value="Accepted" ${req.status === 'Accepted' ? 'selected' : ''}>Accepted</option>
+                <option value="Picked Up" ${req.status === 'Picked Up' ? 'selected' : ''}>Picked Up</option>
+                <option value="Completed" ${req.status === 'Completed' ? 'selected' : ''}>Completed</option>
+              </select>
+            </div>
+          </div>
+        `;
+      });
+
+      queueContainer.innerHTML = html;
+    }
+
+    // UPDATE REQUEST STATUS & RECORD ASSIGNED DRIVER NUMBER WHEN ACCEPTED
+    function updateRequestStatus(id, newStatus, driverNum) {
+      let requests = getStoredRequests();
+      requests = requests.map(req => {
+        if (req.id === id) {
+          req.status = newStatus;
+          if (newStatus === 'Accepted' || newStatus === 'Picked Up' || newStatus === 'Completed') {
+            if (!req.assignedDriver) {
+              req.assignedDriver = driverNum;
+            }
+          } else if (newStatus === 'Pending') {
+            req.assignedDriver = '';
+          }
+        }
+        return req;
+      });
+      saveStoredRequests(requests);
+      renderDriverDashboard();
+    }
+
+    // AUTO-SELECT BUILDING ON CLICK & SCROLL TO FORM
+    function selectBuilding(buildingName) {
+      const locationInput = document.getElementById('pickup-location');
+      locationInput.value = buildingName;
+      
+      locationInput.classList.add('highlighted');
+      setTimeout(() => {
+        locationInput.classList.remove('highlighted');
+      }, 1500);
+
+      document.getElementById('pickup-card').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // STUDENT SUBMIT PICK-UP REQUEST
+    function handlePickupSubmit(e) {
+      e.preventDefault();
+      const studentName = document.getElementById('pickup-student-name').value.trim();
+      const location = document.getElementById('pickup-location').value.trim();
+      const comments = document.getElementById('pickup-comments').value.trim();
+
+      const newRequestId = 'req-' + Date.now();
+      const newRequest = {
+        id: newRequestId,
+        studentName: studentName,
+        location: location,
+        comments: comments,
+        timestamp: new Date().toLocaleString(),
+        status: 'Pending',
+        assignedDriver: ''
+      };
+
+      const currentRequests = getStoredRequests();
+      currentRequests.unshift(newRequest);
+      saveStoredRequests(currentRequests);
+
+      // Save active student tracking session ID in localStorage
+      localStorage.setItem('my_active_request_id', newRequestId);
+
+      const alertBox = document.getElementById('pickup-alert');
+      alertBox.style.display = 'block';
+      document.getElementById('pickup-form').reset();
+
+      setTimeout(() => {
+        alertBox.style.display = 'none';
+      }, 5000);
+
+      checkStudentTrackingState();
+    }
+
+    // CHECK & DISPLAY STUDENT REQUEST TRACKING
+    function checkStudentTrackingState() {
+      const activeId = localStorage.getItem('my_active_request_id');
+      const trackingBox = document.getElementById('student-tracking-box');
+      const statusText = document.getElementById('tracking-status-text');
+
+      if (!activeId) {
+        if (trackingBox) trackingBox.style.display = 'none';
+        return;
+      }
+
+      const requests = getStoredRequests();
+      const myReq = requests.find(r => r.id === activeId);
+
+      if (!myReq) {
+        localStorage.removeItem('my_active_request_id');
+        if (trackingBox) trackingBox.style.display = 'none';
+        return;
+      }
+
+      if (trackingBox) trackingBox.style.display = 'block';
+
+      if (myReq.status === 'Pending') {
+        statusText.innerHTML = `Your request is <strong>Pending</strong>. Waiting for an available driver to accept...`;
+      } else if (myReq.status === 'Accepted') {
+        statusText.innerHTML = `<strong>Driver #${myReq.assignedDriver || 'N/A'} accepted your request!</strong> They are on their way to ${escapeHtml(myReq.location)}.`;
+      } else if (myReq.status === 'Picked Up') {
+        statusText.innerHTML = `You have been <strong>Picked Up</strong> by Driver #${myReq.assignedDriver || 'N/A'}. Enjoy your ride!`;
+      } else if (myReq.status === 'Completed') {
+        statusText.innerHTML = `Your trip is <strong>Completed</strong>. Thank you for riding NEUST Sumacab Campus Pedicab!`;
+        setTimeout(() => {
+          localStorage.removeItem('my_active_request_id');
+          if (trackingBox) trackingBox.style.display = 'none';
+        }, 8000);
+      }
+    }
+
+    // SYNC STUDENT TRACKING STATE PERIODICALLY
+    function syncStudentTrackingState() {
+      if (document.getElementById('student-tracking-box') && document.getElementById('student-tracking-box').style.display === 'block') {
+        checkStudentTrackingState();
+      }
+    }
+
+    // CANCEL MY ACTIVE REQUEST
+    function cancelMyRequest() {
+      const activeId = localStorage.getItem('my_active_request_id');
+      if (activeId) {
+        let requests = getStoredRequests();
+        requests = requests.filter(r => r.id !== activeId);
+        saveStoredRequests(requests);
+        localStorage.removeItem('my_active_request_id');
+        document.getElementById('student-tracking-box').style.display = 'none';
+        alert('Your pick-up request has been cancelled.');
+      }
+    }
+
+    // EXPERIENCE SUBMISSION
+    function handleExperienceSubmit(e) {
+      e.preventDefault();
+      const alertBox = document.getElementById('experience-alert');
+      const name = document.getElementById('exp-name').value.trim();
+      const comments = document.getElementById('exp-comments').value.trim();
+      const selectedRating = document.querySelector('input[name="rating"]:checked').value;
+
+      let stars = '';
+      for(let i = 0; i < 5; i++) {
+        stars += (i < selectedRating) ? '★' : '☆';
+      }
+
+      const feed = document.getElementById('experience-feed');
+      const newItem = document.createElement('div');
+      newItem.className = 'experience-item';
+      newItem.innerHTML = `
+        <div class="experience-header">
+          <span class="experience-user">${escapeHtml(name)}</span>
+          <span class="experience-stars">${stars}</span>
+        </div>
+        <div class="experience-text">${escapeHtml(comments)}</div>
+        <div class="experience-date">Just now</div>
+      `;
+      feed.prepend(newItem);
+
+      alertBox.style.display = 'block';
+      document.getElementById('experience-form').reset();
+
+      setTimeout(() => {
+        alertBox.style.display = 'none';
+      }, 5000);
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+  </script>
+</body>
+</html>
